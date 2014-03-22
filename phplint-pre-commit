@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+ABORT_COMMIT=false
+
+while read -r FILE; do 
+  php -l $FILE >/dev/null 2>&1;
+  if [ $? -gt 0 ]; then 
+    echo "PHP Syntax Error Detected in $FILE" 
+    ABORT_COMMIT=true
+  fi
+done < <(git diff-index --name-only --diff-filter=ACM --cached HEAD | \
+  egrep '\.(php|phtml)$')
+
+if [ $ABORT_COMMIT = true ]; then
+  echo "Errors found, aborting commit"
+  exit 1
+fi
