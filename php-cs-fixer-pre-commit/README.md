@@ -2,7 +2,7 @@
 
 To use this pre-commit hook, you will need to have [php-cs-fixer.phar](http://get.sensiolabs.org/php-cs-fixer.phar) somewhere in your path.
 
-This pre-commit hook will look at files being commited if the file
+This pre-commit hook will use php-cs-fixer to inspect each file being commited if it:
 
     - has a .php extension
     - is inside the local code pool, i.e. app/code/local
