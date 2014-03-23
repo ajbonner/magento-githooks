@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+ABORT_COMMIT=false
+
+while read -r FILE; do 
+  if [[ $FILE =~ 'app/code/local' ]]; then
+    php-cs-fixer.phar fix --dry-run --diff -v $FILE
+    if [ $? -gt 0 ]; then 
+      ABORT_COMMIT=true
+    fi
+  fi
+done < <(git diff-index --name-only --diff-filter=ACM --cached HEAD | \
+  egrep '\.(php)$' | egrep -v 'Controller.php$')
+
+if [ $ABORT_COMMIT = true ]; then
+  echo "Code style errors found, aborting commit"
+  exit 1
+fi

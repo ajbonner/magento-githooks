@@ -1,0 +1,23 @@
+<?php
+
+$finder = Symfony\CS\Finder\DefaultFinder::create()
+    ->name('*.php')
+    ->name('*.phtml')
+    ->name('*.xml')
+    ->exclude(array(
+        'lib',
+        'shell',
+        'app/Mage.php',
+        'app/code/core',
+        'app/code/community',
+        'app/design/frontend/default',
+        'app/design/frontend/enterprise/default',
+        'app/design/frontend/base',
+        'app/design/adminhtml/default')
+    )
+    ->notName('*Controller.php')
+    ->notName('*ControllerTest.php')
+    ->in(__DIR__);
+
+return Symfony\CS\Config\Config::create()
+    ->finder($finder);
